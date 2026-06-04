@@ -1,0 +1,286 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 900" font-family="Arial, sans-serif">
+  <style>
+    .wire-power { stroke: #c62828; stroke-width: 2; fill: none; }
+    .wire-gnd { stroke: #424242; stroke-width: 2; fill: none; }
+    .wire-data { stroke: #1565c0; stroke-width: 1.8; fill: none; }
+    .wire { stroke: #222; stroke-width: 1.8; fill: none; }
+    .component { fill: #fff; stroke: #222; stroke-width: 1.5; }
+    .ic-body { fill: #f5f5f5; stroke: #222; stroke-width: 1.5; }
+    .label { font-size: 12px; fill: #222; }
+    .label-bold { font-size: 13px; fill: #222; font-weight: bold; }
+    .pin-label { font-size: 10px; fill: #444; }
+    .net-label { font-size: 11px; fill: #1565c0; font-style: italic; }
+    .title { font-size: 20px; font-weight: bold; fill: #222; }
+    .annotation { font-size: 10px; fill: #777; font-style: italic; }
+    .node { fill: #222; }
+  </style>
+
+  <text x="640" y="35" text-anchor="middle" class="title">Turbine Brick — System Schematic</text>
+
+  <!-- ══════════ ROW 1: Battery, ESC, Motor ══════════ -->
+
+  <!-- BATTERY -->
+  <g transform="translate(80, 120)">
+    <text x="55" y="-25" text-anchor="middle" class="label-bold">4S LiPo Battery</text>
+    <text x="55" y="-10" text-anchor="middle" class="annotation">14.8V nominal, XT60/XT30</text>
+    <rect x="0" y="0" width="110" height="60" class="component" rx="4"/>
+    <text x="55" y="35" text-anchor="middle" class="label">14.8V</text>
+    <text x="-5" y="22" text-anchor="end" class="pin-label">+</text>
+    <text x="-5" y="48" text-anchor="end" class="pin-label">−</text>
+  </g>
+
+  <!-- BAT+ wire to ESC -->
+  <line x1="80" y1="138" x2="60" y2="138" class="wire-power"/>
+  <line x1="60" y1="138" x2="60" y2="100" class="wire-power"/>
+  <line x1="60" y1="100" x2="330" y2="100" class="wire-power"/>
+  <line x1="330" y1="100" x2="330" y2="148" class="wire-power"/>
+
+  <!-- BAT- wire to ESC -->
+  <line x1="80" y1="162" x2="60" y2="162" class="wire-gnd"/>
+  <line x1="60" y1="162" x2="60" y2="240" class="wire-gnd"/>
+  <line x1="60" y1="240" x2="330" y2="240" class="wire-gnd"/>
+  <line x1="330" y1="240" x2="330" y2="208" class="wire-gnd"/>
+
+  <!-- VBAT tap -->
+  <circle cx="200" cy="100" r="4" class="node"/>
+  <line x1="200" y1="100" x2="200" y2="310" class="wire-power"/>
+
+  <!-- ESC -->
+  <g transform="translate(330, 130)">
+    <text x="75" y="-12" text-anchor="middle" class="label-bold">ESC (40A)</text>
+    <rect x="0" y="0" width="150" height="100" class="ic-body" rx="4"/>
+    <text x="75" y="40" text-anchor="middle" class="label">SkyWalker 40A</text>
+    <text x="75" y="58" text-anchor="middle" class="annotation">with BEC</text>
+
+    <text x="5" y="22" class="pin-label">BAT+</text>
+    <text x="5" y="82" class="pin-label">BAT−</text>
+
+    <!-- 3-phase out -->
+    <line x1="150" y1="20" x2="180" y2="20" class="wire"/>
+    <line x1="150" y1="40" x2="180" y2="40" class="wire"/>
+    <line x1="150" y1="60" x2="180" y2="60" class="wire"/>
+    <text x="145" y="24" text-anchor="end" class="pin-label">A</text>
+    <text x="145" y="44" text-anchor="end" class="pin-label">B</text>
+    <text x="145" y="64" text-anchor="end" class="pin-label">C</text>
+
+    <!-- BEC outputs (bottom) -->
+    <line x1="40" y1="100" x2="40" y2="135" class="wire-power"/>
+    <line x1="75" y1="100" x2="75" y2="135" class="wire-gnd"/>
+    <line x1="115" y1="100" x2="115" y2="135" class="wire-data"/>
+    <text x="40" y="128" text-anchor="middle" class="pin-label">5V</text>
+    <text x="75" y="128" text-anchor="middle" class="pin-label">GND</text>
+    <text x="115" y="128" text-anchor="middle" class="pin-label">SIG</text>
+  </g>
+
+  <!-- Motor -->
+  <g transform="translate(550, 125)">
+    <text x="70" y="-15" text-anchor="middle" class="label-bold">Brushless Motor</text>
+    <circle cx="70" cy="55" r="42" class="component"/>
+    <text x="70" y="50" text-anchor="middle" class="label">P1604</text>
+    <text x="70" y="68" text-anchor="middle" class="label">3800KV</text>
+    <line x1="-40" y1="25" x2="32" y2="38" class="wire"/>
+    <line x1="-40" y1="45" x2="30" y2="55" class="wire"/>
+    <line x1="-40" y1="65" x2="32" y2="72" class="wire"/>
+  </g>
+
+  <!-- ══════════ ROW 2: Voltage Divider ══════════ -->
+
+  <g transform="translate(80, 320)">
+    <text x="100" y="-15" text-anchor="middle" class="label-bold">Voltage Divider</text>
+
+    <!-- R1 -->
+    <g transform="translate(100, 0)">
+      <polyline points="0,0 -8,7 8,21 -8,35 8,49 -8,63 0,70" stroke="#222" stroke-width="1.8" fill="none"/>
+      <text x="20" y="30" class="label">R1</text>
+      <text x="20" y="46" class="label">10kΩ</text>
+    </g>
+
+    <!-- Mid node -->
+    <circle cx="100" cy="70" r="4" class="node"/>
+    <text x="120" y="65" class="net-label">VBAT_DIV</text>
+
+    <!-- R2 -->
+    <g transform="translate(100, 70)">
+      <polyline points="0,0 -8,7 8,21 -8,35 8,49 -8,63 0,70" stroke="#222" stroke-width="1.8" fill="none"/>
+      <text x="20" y="30" class="label">R2</text>
+      <text x="20" y="46" class="label">2kΩ</text>
+    </g>
+
+    <!-- 100nF cap branch -->
+    <line x1="100" y1="70" x2="230" y2="70" class="wire"/>
+    <line x1="230" y1="70" x2="230" y2="115" class="wire"/>
+    <line x1="215" y1="115" x2="245" y2="115" stroke="#222" stroke-width="2.5"/>
+    <line x1="215" y1="123" x2="245" y2="123" stroke="#222" stroke-width="2.5"/>
+    <text x="255" y="120" class="label">C1 100nF</text>
+    <line x1="230" y1="123" x2="230" y2="160" class="wire-gnd"/>
+
+    <!-- R2 to GND -->
+    <line x1="100" y1="140" x2="100" y2="160" class="wire-gnd"/>
+
+    <!-- GND rail -->
+    <line x1="100" y1="160" x2="230" y2="160" class="wire-gnd"/>
+    <line x1="125" y1="160" x2="205" y2="160" stroke="#424242" stroke-width="5"/>
+    <line x1="140" y1="168" x2="190" y2="168" stroke="#424242" stroke-width="3"/>
+    <line x1="155" y1="176" x2="175" y2="176" stroke="#424242" stroke-width="3"/>
+    <text x="255" y="165" class="label">GND</text>
+
+    <!-- Output line going left/down -->
+    <line x1="100" y1="70" x2="40" y2="70" class="wire-data"/>
+    <text x="40" y="60" class="pin-label">→ GPIO4</text>
+  </g>
+
+  <!-- Wire from divider out to ESP32 GPIO4 -->
+  <line x1="120" y1="390" x2="120" y2="600" class="wire-data"/>
+  <line x1="120" y1="600" x2="460" y2="600" class="wire-data"/>
+
+  <!-- ══════════ ROW 3: ESP32 (center) ══════════ -->
+
+  <g transform="translate(460, 530)">
+    <text x="160" y="-15" text-anchor="middle" class="label-bold">ESP32-C3 SuperMini</text>
+    <rect x="0" y="0" width="320" height="180" class="ic-body" rx="6"/>
+    <text x="160" y="100" text-anchor="middle" class="annotation">RISC-V microcontroller</text>
+
+    <!-- LEFT pins -->
+    <line x1="0" y1="30" x2="-20" y2="30" class="wire-power"/>
+    <text x="5" y="34" class="pin-label">5V</text>
+    <line x1="0" y1="55" x2="-20" y2="55" class="wire-gnd"/>
+    <text x="5" y="59" class="pin-label">GND</text>
+    <line x1="0" y1="120" x2="-20" y2="120" class="wire-data"/>
+    <text x="5" y="124" class="pin-label">GPIO4 ← VBAT</text>
+    <line x1="0" y1="145" x2="-20" y2="145" class="wire-data"/>
+    <text x="5" y="149" class="pin-label">GPIO3 ← POT</text>
+    <line x1="0" y1="170" x2="-20" y2="170" class="wire-power"/>
+    <text x="5" y="174" class="pin-label">3V3 →</text>
+
+    <!-- RIGHT pins -->
+    <line x1="320" y1="30" x2="340" y2="30" class="wire-data"/>
+    <text x="315" y="34" text-anchor="end" class="pin-label">GPIO2 → PWM</text>
+    <line x1="320" y1="65" x2="340" y2="65" class="wire-data"/>
+    <text x="315" y="69" text-anchor="end" class="pin-label">GPIO8 → SDA</text>
+    <line x1="320" y1="90" x2="340" y2="90" class="wire-data"/>
+    <text x="315" y="94" text-anchor="end" class="pin-label">GPIO9 → SCL</text>
+    <line x1="320" y1="140" x2="340" y2="140" class="wire-data"/>
+    <text x="315" y="144" text-anchor="end" class="pin-label">GPIO10 → LED</text>
+  </g>
+
+  <!-- ══════════ ROW 4: Peripherals (right column) ══════════ -->
+
+  <!-- Pot -->
+  <g transform="translate(890, 340)">
+    <text x="80" y="-15" text-anchor="middle" class="label-bold">10kΩ Potentiometer</text>
+    <rect x="0" y="0" width="160" height="55" class="component" rx="4"/>
+    <text x="80" y="32" text-anchor="middle" class="label">10kΩ linear</text>
+
+    <line x1="25" y1="55" x2="25" y2="85" class="wire-power"/>
+    <line x1="80" y1="55" x2="80" y2="85" class="wire-data"/>
+    <line x1="135" y1="55" x2="135" y2="85" class="wire-gnd"/>
+    <text x="25" y="98" text-anchor="middle" class="pin-label">3V3</text>
+    <text x="80" y="98" text-anchor="middle" class="pin-label">WIPER</text>
+    <text x="135" y="98" text-anchor="middle" class="pin-label">GND</text>
+  </g>
+
+  <!-- OLED -->
+  <g transform="translate(890, 540)">
+    <text x="80" y="-15" text-anchor="middle" class="label-bold">SSD1306 OLED</text>
+    <rect x="0" y="0" width="160" height="55" class="component" rx="4"/>
+    <text x="80" y="32" text-anchor="middle" class="label">128×32 I²C</text>
+
+    <line x1="25" y1="55" x2="25" y2="85" class="wire-power"/>
+    <line x1="65" y1="55" x2="65" y2="85" class="wire-gnd"/>
+    <line x1="105" y1="55" x2="105" y2="85" class="wire-data"/>
+    <line x1="145" y1="55" x2="145" y2="85" class="wire-data"/>
+    <text x="25" y="98" text-anchor="middle" class="pin-label">VCC</text>
+    <text x="65" y="98" text-anchor="middle" class="pin-label">GND</text>
+    <text x="105" y="98" text-anchor="middle" class="pin-label">SDA</text>
+    <text x="145" y="98" text-anchor="middle" class="pin-label">SCL</text>
+  </g>
+
+  <!-- LED Ring (further away to leave room for resistor in wire) -->
+  <g transform="translate(890, 760)">
+    <text x="80" y="-50" text-anchor="middle" class="label-bold">WS2812B LED Ring</text>
+    <rect x="0" y="-35" width="160" height="55" class="component" rx="4"/>
+    <text x="80" y="-10" text-anchor="middle" class="label">18 LEDs</text>
+    <text x="80" y="8" text-anchor="middle" class="annotation">addressable</text>
+
+    <!-- 3 pins on top -->
+    <line x1="25" y1="-35" x2="25" y2="-75" class="wire-power"/>
+    <line x1="80" y1="-35" x2="80" y2="-75" class="wire-data"/>
+    <line x1="135" y1="-35" x2="135" y2="-75" class="wire-gnd"/>
+    <text x="25" y="-85" text-anchor="middle" class="pin-label">5V</text>
+    <text x="80" y="-85" text-anchor="middle" class="pin-label">DIN</text>
+    <text x="135" y="-85" text-anchor="middle" class="pin-label">GND</text>
+  </g>
+
+  <!-- ══════════ Inter-component wires ══════════ -->
+
+  <!-- ESC SIG → ESP32 GPIO2 -->
+  <line x1="445" y1="265" x2="445" y2="490" class="wire-data"/>
+  <line x1="445" y1="490" x2="800" y2="490" class="wire-data"/>
+  <line x1="800" y1="490" x2="800" y2="560" class="wire-data"/>
+
+  <!-- ESC 5V → ESP32 5V -->
+  <line x1="370" y1="265" x2="370" y2="470" class="wire-power"/>
+  <line x1="370" y1="470" x2="460" y2="470" class="wire-power"/>
+  <line x1="460" y1="470" x2="460" y2="560" class="wire-power"/>
+
+  <!-- ESC GND → ESP32 GND -->
+  <line x1="405" y1="265" x2="405" y2="480" class="wire-gnd"/>
+  <line x1="405" y1="480" x2="440" y2="480" class="wire-gnd"/>
+  <line x1="440" y1="480" x2="440" y2="585" class="wire-gnd"/>
+
+  <!-- ESP32 3V3 → Pot 3V3 -->
+  <line x1="440" y1="700" x2="440" y2="720" class="wire-power"/>
+  <line x1="440" y1="720" x2="915" y2="720" class="wire-power"/>
+  <line x1="915" y1="720" x2="915" y2="425" class="wire-power"/>
+
+  <!-- Pot WIPER → ESP32 GPIO3 -->
+  <line x1="970" y1="425" x2="970" y2="515" class="wire-data"/>
+  <line x1="970" y1="515" x2="440" y2="515" class="wire-data"/>
+  <line x1="440" y1="515" x2="440" y2="675" class="wire-data"/>
+
+  <!-- 5V rail tap to OLED VCC and LED 5V -->
+  <line x1="915" y1="625" x2="915" y2="625" class="wire-power"/>
+  <circle cx="915" cy="625" r="3" class="node"/>
+  <line x1="915" y1="595" x2="915" y2="685" class="wire-power"/>
+
+  <!-- OLED SDA → ESP32 GPIO8 -->
+  <line x1="995" y1="625" x2="995" y2="595" class="wire-data"/>
+  <line x1="995" y1="595" x2="800" y2="595" class="wire-data"/>
+
+  <!-- OLED SCL → ESP32 GPIO9 -->
+  <line x1="1035" y1="625" x2="1035" y2="620" class="wire-data"/>
+  <line x1="1035" y1="620" x2="800" y2="620" class="wire-data"/>
+
+  <!-- LED data wire ESP32 GPIO10 with 330Ω inline -->
+  <line x1="800" y1="670" x2="970" y2="670" class="wire-data"/>
+  <!-- 330Ω resistor inline -->
+  <g transform="translate(820, 660)">
+    <line x1="0" y1="10" x2="10" y2="10" class="wire-data"/>
+    <polyline points="10,10 18,3 30,17 42,3 54,17 66,3 78,10" stroke="#222" stroke-width="1.8" fill="none"/>
+    <line x1="78" y1="10" x2="88" y2="10" class="wire-data"/>
+    <text x="44" y="-3" text-anchor="middle" class="label">330Ω</text>
+  </g>
+  <line x1="970" y1="670" x2="970" y2="685" class="wire-data"/>
+
+  <!-- LED 5V from rail -->
+  <line x1="915" y1="685" x2="915" y2="685" class="wire-power"/>
+
+  <!-- GND bus on right side -->
+  <line x1="1085" y1="425" x2="1100" y2="425" class="wire-gnd"/>
+  <line x1="1100" y1="425" x2="1100" y2="810" class="wire-gnd"/>
+  <line x1="955" y1="625" x2="1100" y2="625" class="wire-gnd"/>
+  <line x1="1025" y1="685" x2="1100" y2="685" class="wire-gnd"/>
+
+  <!-- ══════════ Legend ══════════ -->
+  <g transform="translate(80, 850)">
+    <text x="0" y="0" class="label-bold">Legend</text>
+    <line x1="0" y1="20" x2="40" y2="20" class="wire-power"/>
+    <text x="48" y="24" class="label">Power (5V / BAT+)</text>
+    <line x1="220" y1="20" x2="260" y2="20" class="wire-gnd"/>
+    <text x="268" y="24" class="label">Ground</text>
+    <line x1="380" y1="20" x2="420" y2="20" class="wire-data"/>
+    <text x="428" y="24" class="label">Signal / Data</text>
+    <line x1="560" y1="20" x2="600" y2="20" class="wire"/>
+    <text x="608" y="24" class="label">3-phase motor</text>
+  </g>
+</svg>
