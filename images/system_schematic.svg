@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 900" font-family="Arial, sans-serif">
   <style>
     .wire-power { stroke: #c62828; stroke-width: 2; fill: none; }
+    .wire-3v3 { stroke: #f57c00; stroke-width: 2; fill: none; }
     .wire-gnd { stroke: #424242; stroke-width: 2; fill: none; }
     .wire-data { stroke: #1565c0; stroke-width: 1.8; fill: none; }
     .wire { stroke: #222; stroke-width: 1.8; fill: none; }
@@ -149,7 +150,7 @@
     <text x="5" y="124" class="pin-label">GPIO4 ← VBAT</text>
     <line x1="0" y1="145" x2="-20" y2="145" class="wire-data"/>
     <text x="5" y="149" class="pin-label">GPIO3 ← POT</text>
-    <line x1="0" y1="170" x2="-20" y2="170" class="wire-power"/>
+    <line x1="0" y1="170" x2="-20" y2="170" class="wire-3v3"/>
     <text x="5" y="174" class="pin-label">3V3 →</text>
 
     <!-- RIGHT pins -->
@@ -171,7 +172,7 @@
     <rect x="0" y="0" width="160" height="55" class="component" rx="4"/>
     <text x="80" y="32" text-anchor="middle" class="label">10kΩ linear</text>
 
-    <line x1="25" y1="55" x2="25" y2="85" class="wire-power"/>
+    <line x1="25" y1="55" x2="25" y2="85" class="wire-3v3"/>
     <line x1="80" y1="55" x2="80" y2="85" class="wire-data"/>
     <line x1="135" y1="55" x2="135" y2="85" class="wire-gnd"/>
     <text x="25" y="98" text-anchor="middle" class="pin-label">3V3</text>
@@ -228,20 +229,33 @@
   <line x1="405" y1="480" x2="440" y2="480" class="wire-gnd"/>
   <line x1="440" y1="480" x2="440" y2="585" class="wire-gnd"/>
 
-  <!-- ESP32 3V3 → Pot 3V3 -->
-  <line x1="440" y1="700" x2="440" y2="720" class="wire-power"/>
-  <line x1="440" y1="720" x2="915" y2="720" class="wire-power"/>
-  <line x1="915" y1="720" x2="915" y2="425" class="wire-power"/>
+  <!-- ESP32 3V3 → Pot 3V3 — routed around the right side (orange color, separate from 5V) -->
+  <line x1="440" y1="700" x2="440" y2="800" class="wire-3v3"/>
+  <line x1="440" y1="800" x2="1170" y2="800" class="wire-3v3"/>
+  <line x1="1170" y1="800" x2="1170" y2="380" class="wire-3v3"/>
+  <line x1="1170" y1="380" x2="915" y2="380" class="wire-3v3"/>
+  <line x1="915" y1="380" x2="915" y2="395" class="wire-3v3"/>
+  <text x="700" y="795" class="net-label">3V3 (to pot reference)</text>
+
+  <!-- Also recolor the 3V3 pin output indicator -->
+  <line x1="440" y1="700" x2="420" y2="700" class="wire-3v3"/>
 
   <!-- Pot WIPER → ESP32 GPIO3 -->
   <line x1="970" y1="425" x2="970" y2="515" class="wire-data"/>
   <line x1="970" y1="515" x2="440" y2="515" class="wire-data"/>
   <line x1="440" y1="515" x2="440" y2="675" class="wire-data"/>
 
-  <!-- 5V rail tap to OLED VCC and LED 5V -->
-  <line x1="915" y1="625" x2="915" y2="625" class="wire-power"/>
-  <circle cx="915" cy="625" r="3" class="node"/>
-  <line x1="915" y1="595" x2="915" y2="685" class="wire-power"/>
+  <!-- 5V RAIL: tap from BEC 5V wire (above ESP32) and run across to OLED/LED -->
+  <circle cx="370" cy="470" r="3" class="node"/>
+  <line x1="370" y1="470" x2="850" y2="470" class="wire-power"/>
+  <text x="600" y="465" class="net-label">5V (from BEC)</text>
+  <circle cx="850" cy="470" r="3" class="node"/>
+  <!-- branch down from 5V rail to OLED VCC -->
+  <line x1="850" y1="470" x2="850" y2="625" class="wire-power"/>
+  <line x1="850" y1="625" x2="915" y2="625" class="wire-power"/>
+  <!-- branch from 5V rail to LED 5V (via right turn) -->
+  <line x1="850" y1="625" x2="850" y2="685" class="wire-power"/>
+  <line x1="850" y1="685" x2="915" y2="685" class="wire-power"/>
 
   <!-- OLED SDA → ESP32 GPIO8 -->
   <line x1="995" y1="625" x2="995" y2="595" class="wire-data"/>
@@ -253,7 +267,6 @@
 
   <!-- LED data wire ESP32 GPIO10 with 330Ω inline -->
   <line x1="800" y1="670" x2="970" y2="670" class="wire-data"/>
-  <!-- 330Ω resistor inline -->
   <g transform="translate(820, 660)">
     <line x1="0" y1="10" x2="10" y2="10" class="wire-data"/>
     <polyline points="10,10 18,3 30,17 42,3 54,17 66,3 78,10" stroke="#222" stroke-width="1.8" fill="none"/>
@@ -262,25 +275,57 @@
   </g>
   <line x1="970" y1="670" x2="970" y2="685" class="wire-data"/>
 
-  <!-- LED 5V from rail -->
-  <line x1="915" y1="685" x2="915" y2="685" class="wire-power"/>
+  <!-- Each peripheral has its own short ground symbol (standard schematic convention) -->
 
-  <!-- GND bus on right side -->
-  <line x1="1085" y1="425" x2="1100" y2="425" class="wire-gnd"/>
-  <line x1="1100" y1="425" x2="1100" y2="810" class="wire-gnd"/>
-  <line x1="955" y1="625" x2="1100" y2="625" class="wire-gnd"/>
-  <line x1="1025" y1="685" x2="1100" y2="685" class="wire-gnd"/>
+  <!-- Pot GND → ground symbol below pot -->
+  <line x1="1025" y1="425" x2="1025" y2="455" class="wire-gnd"/>
+  <g transform="translate(1025, 455)">
+    <line x1="-15" y1="0" x2="15" y2="0" stroke="#424242" stroke-width="4"/>
+    <line x1="-9" y1="6" x2="9" y2="6" stroke="#424242" stroke-width="2.5"/>
+    <line x1="-4" y1="12" x2="4" y2="12" stroke="#424242" stroke-width="2.5"/>
+  </g>
+
+  <!-- OLED GND → ground symbol below OLED -->
+  <line x1="955" y1="625" x2="955" y2="655" class="wire-gnd"/>
+  <g transform="translate(955, 655)">
+    <line x1="-15" y1="0" x2="15" y2="0" stroke="#424242" stroke-width="4"/>
+    <line x1="-9" y1="6" x2="9" y2="6" stroke="#424242" stroke-width="2.5"/>
+    <line x1="-4" y1="12" x2="4" y2="12" stroke="#424242" stroke-width="2.5"/>
+  </g>
+
+  <!-- LED Ring GND → wire down past ring body, ground symbol below -->
+  <line x1="1025" y1="685" x2="1110" y2="685" class="wire-gnd"/>
+  <line x1="1110" y1="685" x2="1110" y2="815" class="wire-gnd"/>
+  <g transform="translate(1110, 815)">
+    <line x1="-15" y1="0" x2="15" y2="0" stroke="#424242" stroke-width="4"/>
+    <line x1="-9" y1="6" x2="9" y2="6" stroke="#424242" stroke-width="2.5"/>
+    <line x1="-4" y1="12" x2="4" y2="12" stroke="#424242" stroke-width="2.5"/>
+  </g>
+
+  <!-- ESP32 GND pin → ground symbol below -->
+  <line x1="440" y1="585" x2="400" y2="585" class="wire-gnd"/>
+  <line x1="400" y1="585" x2="400" y2="615" class="wire-gnd"/>
+  <g transform="translate(400, 615)">
+    <line x1="-15" y1="0" x2="15" y2="0" stroke="#424242" stroke-width="4"/>
+    <line x1="-9" y1="6" x2="9" y2="6" stroke="#424242" stroke-width="2.5"/>
+    <line x1="-4" y1="12" x2="4" y2="12" stroke="#424242" stroke-width="2.5"/>
+  </g>
+
+  <!-- Note about GND symbol convention -->
+  <text x="80" y="820" class="annotation">Note: every GND ground symbol represents the same net — connected via the common GND from the BEC.</text>
 
   <!-- ══════════ Legend ══════════ -->
   <g transform="translate(80, 850)">
     <text x="0" y="0" class="label-bold">Legend</text>
     <line x1="0" y1="20" x2="40" y2="20" class="wire-power"/>
-    <text x="48" y="24" class="label">Power (5V / BAT+)</text>
-    <line x1="220" y1="20" x2="260" y2="20" class="wire-gnd"/>
-    <text x="268" y="24" class="label">Ground</text>
-    <line x1="380" y1="20" x2="420" y2="20" class="wire-data"/>
-    <text x="428" y="24" class="label">Signal / Data</text>
-    <line x1="560" y1="20" x2="600" y2="20" class="wire"/>
-    <text x="608" y="24" class="label">3-phase motor</text>
+    <text x="48" y="24" class="label">5V / BAT+</text>
+    <line x1="150" y1="20" x2="190" y2="20" class="wire-3v3"/>
+    <text x="198" y="24" class="label">3V3</text>
+    <line x1="260" y1="20" x2="300" y2="20" class="wire-gnd"/>
+    <text x="308" y="24" class="label">Ground</text>
+    <line x1="400" y1="20" x2="440" y2="20" class="wire-data"/>
+    <text x="448" y="24" class="label">Signal / Data</text>
+    <line x1="580" y1="20" x2="620" y2="20" class="wire"/>
+    <text x="628" y="24" class="label">3-phase motor</text>
   </g>
 </svg>

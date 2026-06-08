@@ -139,6 +139,57 @@ The voltage divider readings depend on individual ESP32-C3 ADC characteristics. 
 
 Default calibration values in the source code are placeholders — update `CAL_R_LOW` and `CAL_R_HIGH` in `turbine_brick_controller.ino` after running the calibration procedure on your specific board.
 
+## Final Assembly & Calibration
+
+The progressive test sketches work fine on a breadboard or prototyping board, but **ADC readings will be unstable** in that environment — loose contacts, long jumper wires, and shared ground returns create noise that corrupts analog signals. Don't waste time fine-tuning calibration on a prototyping board; tune everything **after soldering and final assembly inside the enclosure**.
+
+### Wiring Best Practices for Final Assembly
+
+**Voltage divider:**
+- Solder R1, R2, and the 100nF cap directly to the back of the ESP32-C3 dev board
+- Keep the wire from divider midpoint to GPIO4 as short as possible (under 10cm)
+- Eliminates breadboard contact resistance and reduces ADC noise
+
+**Twisted pairs reduce EMI:**
+- POT wiper wire twisted with its GND return
+- LED 5V and LED GND twisted together (cancels WS2812B current-pulse noise)
+- ESC signal wire can run separately (digital signal, more robust)
+
+**Single ground point:**
+- All ground returns meet at ONE physical spot — typically the ESC BEC GND pad
+- Avoid daisy-chaining grounds across multiple components
+- Keeps the ADC ground reference clean
+
+**Separate analog and digital wires:**
+- Keep POT wiper and VBAT divider wires on one side of the enclosure
+- Keep LED data and ESC signal wires on the other
+- Don't run analog and digital wires parallel to each other for long distances
+
+**Decoupling capacitor on LED strip:**
+- Solder a 470µF electrolytic cap directly between 5V and GND at the LED strip's input pads
+- Absorbs current pulses locally so they don't propagate back to the ESP32 ADC
+
+**Wire lengths:**
+- POT wires: under 15cm
+- VBAT divider wire to GPIO4: under 10cm
+- LED data wire can be longer (digital signal)
+
+### Recalibration After Assembly
+
+Once everything is soldered and mounted in the enclosure, run through these tests in order:
+
+1. **Pot test (`02-pot-test`)** — verify raw values reach near 0 and near 4095 at the extremes with minimal jitter. With proper wiring, dead zones of `RAW_MIN=100, RAW_MAX=4050` are typically sufficient.
+
+2. **Voltage divider test (`04-voltage-divider`)** — re-run the two-point calibration procedure. Calibration values will shift slightly from breadboard readings due to cleaner connections.
+
+3. **Safety features test (`05-safety-features`)** — verify the arming sequence, low-battery warning, and fault latching all behave correctly.
+
+4. **Final controller** — flash the integrated firmware with updated calibration constants. Verify all LED ring states (disarmed, armed, low battery, fault).
+
+### Documentation
+
+Take photos of the wired-up internals before closing the enclosure. Useful for future maintenance and troubleshooting without needing to disassemble.
+
 ## Safety Notes
 
 - The motor uses an FPV-grade brushless motor capable of significant RPM. Always remove the propeller for bench testing.
