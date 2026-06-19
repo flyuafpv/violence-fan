@@ -165,9 +165,10 @@ The progressive test sketches work fine on a breadboard or prototyping board, bu
 - Keep LED data and ESC signal wires on the other
 - Don't run analog and digital wires parallel to each other for long distances
 
-**Decoupling capacitor on LED strip:**
-- Solder a 470µF electrolytic cap directly between 5V and GND at the LED strip's input pads
-- Absorbs current pulses locally so they don't propagate back to the ESP32 ADC
+**Decoupling capacitor on LED 5V:**
+- Solder a 470µF electrolytic cap between the LED strip's 5V and GND wires inside the base, as close to the strip as practical
+- Absorbs current pulses to reduce noise propagating back to the ESP32 ADC
+- Closer to the LEDs = more effective, but anywhere on the LED 5V/GND wire pair helps
 
 **Wire lengths:**
 - POT wires: under 15cm
