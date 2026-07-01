@@ -2,7 +2,7 @@
 
 A brushless desktop fan controller built around an ESP32-C3, controlling an FPV-style brushless motor through an ESC.
 
-The repository contains the full electronics development sequence (six progressively integrated test sketches), the final controller firmware, and reference documentation. The 3D-printable enclosure is on [Thingiverse](https://www.thingiverse.com/thing:7377238).
+The repository contains the full electronics development sequence (seven progressively integrated sketches), the final controller firmware, and reference documentation. The 3D-printable enclosure is on [Thingiverse](https://www.thingiverse.com/thing:7377238).
 
 ## Build Video
 
@@ -80,7 +80,7 @@ Full wiring diagram: see `WIRING.md`.
 
 ## Build Approach
 
-The electronics are developed in incremental test sketches, each adding one subsystem:
+The electronics are developed in seven incremental sketches, each adding one subsystem — the first six are test steps, the seventh is the final controller:
 
 1. **`01-oled-hello-test`** — verifies OLED display and I²C wiring
 2. **`02-pot-test`** — adds potentiometer reading with dead-zone calibration
@@ -88,6 +88,7 @@ The electronics are developed in incremental test sketches, each adding one subs
 4. **`04-voltage-divider`** — adds battery voltage monitoring with two-point calibration
 5. **`05-safety-features`** — adds arming sequence and fault latching
 6. **`06-led-test`** — adds the WS2812B LED ring
+7. **`07-fan-controller`** — **final firmware**: integrates everything with a full state machine, session statistics, and the 128×64 display layout
 
 Each subfolder contains a self-contained sketch (`*.ino`) and a readme (`*.md`) documenting wiring, procedure, expected behaviour, and troubleshooting. Work through them in order — each test depends on the previous ones being verified.
 
