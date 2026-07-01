@@ -13,9 +13,9 @@ The repository contains the full electronics development sequence (seven progres
 
 ## What This Project Does
 
-Turns FPV drone hardware into a quiet, controllable, vibration-isolated desktop fan with:
+Turns FPV drone hardware into a controllable — and unapologetically loud — desktop fan with:
 
-- Brushless motor + 90mm ducted propeller for high airflow
+- Brushless motor + 90mm ducted propeller for serious airflow (and serious noise)
 - Potentiometer throttle control with dead zones
 - 128×64 OLED status display
 - 18-LED ring inside the duct for indication and ambience
