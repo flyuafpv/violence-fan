@@ -48,10 +48,10 @@
 #define VDIV_RATIO    5.25f   // base divider ratio (R1+R2)/R2
 
 // Two-point voltage calibration — UPDATE THESE WITH YOUR MEASUREMENTS
-#define CAL_V_LOW     12.00f  // first calibration voltage (actual, multimeter)
-#define CAL_V_HIGH    16.80f  // second calibration voltage (actual, multimeter)
-#define CAL_R_LOW     12.59f  // displayed reading at CAL_V_LOW (before correction)
-#define CAL_R_HIGH    17.16f  // displayed reading at CAL_V_HIGH (before correction)
+#define CAL_V_LOW     12.90f   // discharged pack, SkyRC reading
+#define CAL_V_HIGH    16.00f   // charged pack, SkyRC reading
+#define CAL_R_LOW     12.25f   // firmware raw reading at 12.90V
+#define CAL_R_HIGH    15.53f   // firmware raw reading at 16.00V
 
 // 4S LiPo voltage thresholds
 #define VBAT_LOW      13.20f  // 3.30V/cell — warning
