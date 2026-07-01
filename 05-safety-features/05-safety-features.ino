@@ -54,10 +54,10 @@
 #define VDIV_RATIO    5.25f
 
 // Two-point voltage calibration — UPDATE WITH YOUR MEASUREMENTS
-#define CAL_V_LOW     12.00f
-#define CAL_V_HIGH    16.80f
-#define CAL_R_LOW     12.59f
-#define CAL_R_HIGH    17.16f
+#define CAL_V_LOW     12.90f
+#define CAL_V_HIGH    16.00f
+#define CAL_R_LOW     12.25f
+#define CAL_R_HIGH    15.53f
 
 // 4S LiPo voltage thresholds
 #define VBAT_LOW      13.20f  // 3.30V/cell — warning

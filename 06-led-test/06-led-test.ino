@@ -64,10 +64,10 @@
 #define VBAT_SAMPLES  64
 
 // Update with your calibration values from 04-voltage-divider
-#define CAL_V_LOW     12.00f
-#define CAL_V_HIGH    16.80f
-#define CAL_R_LOW     12.59f
-#define CAL_R_HIGH    17.16f
+#define CAL_V_LOW     12.90f
+#define CAL_V_HIGH    16.00f
+#define CAL_R_LOW     12.25f
+#define CAL_R_HIGH    15.53f
 
 #define VBAT_LOW      13.20f
 #define VBAT_CUTOFF   12.80f

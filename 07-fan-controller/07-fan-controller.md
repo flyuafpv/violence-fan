@@ -203,7 +203,6 @@ Things you might add later:
 
 - **Energy estimate (mWh)** — multiply avg throttle × time × VBAT to estimate battery used
 - **Cumulative runtime** — persist total runtime across power cycles to flash
-- **Disarm gesture** — hold pot at MAX for 2s to disarm without power cycle (then stats screen shows immediately)
 - **Multiple session history** — store last 5 sessions in flash
 - **Audio buzzer** — startup melody, low-battery warning beeps
 

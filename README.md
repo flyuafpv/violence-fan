@@ -2,7 +2,14 @@
 
 A brushless desktop fan controller built around an ESP32-C3, controlling an FPV-style brushless motor through an ESC.
 
-The repository contains the full electronics development sequence (six progressively integrated test sketches), the final controller firmware, the 3D-printable enclosure (STL files), and reference documentation.
+The repository contains the full electronics development sequence (six progressively integrated test sketches), the final controller firmware, and reference documentation. The 3D-printable enclosure is on [Thingiverse](https://www.thingiverse.com/thing:7377238).
+
+## Build Video
+
+<!-- TODO: replace VIDEO_ID with the actual YouTube video ID once published -->
+[![Turbine Brick build video](https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
+
+*▶ Watch the build video on YouTube* — link coming soon.
 
 ## What This Project Does
 
@@ -10,7 +17,7 @@ Turns FPV drone hardware into a quiet, controllable, vibration-isolated desktop 
 
 - Brushless motor + 90mm ducted propeller for high airflow
 - Potentiometer throttle control with dead zones
-- 128×32 OLED status display
+- 128×64 OLED status display
 - 18-LED ring inside the duct for indication and ambience
 - Battery voltage monitoring with two-point calibration
 - Safety arming sequence (motor disabled until throttle at zero)
@@ -21,7 +28,7 @@ Turns FPV drone hardware into a quiet, controllable, vibration-isolated desktop 
 | Component | Notes |
 |---|---|
 | MCU | ESP32-C3 (SuperMini or any variant with USB CDC) |
-| Display | SSD1306 128×32 OLED, I²C |
+| Display | SSD1309 128×64 OLED, I²C (SSD1306-compatible) |
 | Throttle | 10kΩ linear potentiometer |
 | LED ring | WS2812B 60 LED/m strip, 18 LEDs |
 | ESC | 40A brushless ESC with BEC (Skywalker 40A or similar) |
@@ -41,10 +48,11 @@ Full wiring diagram: see `WIRING.md`.
 .
 ├── README.md                          # this file
 ├── WIRING.md                          # wiring diagrams and pin reference
-├── turbine_brick_v2.html              # full mechanical design reference
-├── fan_controller_reference.html      # electronics architecture reference
-├── turbine_brick_controller/          # FINAL integrated firmware
-│   └── turbine_brick_controller.ino
+├── images/                            # schematic SVGs used by WIRING.md
+│   ├── system_schematic.svg
+│   ├── voltage_divider.svg
+│   ├── esc_connection.svg
+│   └── led_ring.svg
 ├── 01-oled-hello-test/                # progressive test sketches
 │   ├── 01-oled-hello-test.ino
 │   └── 01-oled-hello-test.md
@@ -63,12 +71,16 @@ Full wiring diagram: see `WIRING.md`.
 ├── 06-led-test/
 │   ├── 06-led-test.ino
 │   └── 06-led-test.md
-└── STL/                               # 3D-printable parts
+└── 07-fan-controller/                 # FINAL integrated firmware
+    ├── 07-fan-controller.ino
+    └── 07-fan-controller.md
 ```
+
+> 3D-printable STL files are hosted on Thingiverse, not in this repository — see [Printable Parts](#printable-parts) below.
 
 ## Build Approach
 
-The electronics are developed in six incremental test sketches, each adding one subsystem:
+The electronics are developed in incremental test sketches, each adding one subsystem:
 
 1. **`01-oled-hello-test`** — verifies OLED display and I²C wiring
 2. **`02-pot-test`** — adds potentiometer reading with dead-zone calibration
@@ -79,7 +91,9 @@ The electronics are developed in six incremental test sketches, each adding one 
 
 Each subfolder contains a self-contained sketch (`*.ino`) and a readme (`*.md`) documenting wiring, procedure, expected behaviour, and troubleshooting. Work through them in order — each test depends on the previous ones being verified.
 
-The final firmware (`turbine_brick_controller.ino`) integrates everything into a single sketch with full safety logic.
+The final firmware (`07-fan-controller/07-fan-controller.ino`) integrates everything into a single sketch with a full state machine, session statistics, and the redesigned 128×64 display layout.
+
+> Note: the test sketches 01–06 target a 128×32 display and still run fine on the 128×64 SSD1309 (they simply use the top half). Only the final `07-fan-controller` uses the full 128×64 layout.
 
 ## Required Arduino Libraries
 
@@ -119,25 +133,26 @@ If upload fails:
 
 ## First-Time Usage
 
-After flashing the final controller firmware:
+After flashing the final controller firmware (`07-fan-controller`):
 
 1. Verify the propeller is OFF the motor during initial testing
 2. Secure the motor so it cannot move
 3. Connect the battery — ESC plays arming tones (3 seconds)
-4. OLED displays "TURBINE BRICK / Initialising ESC..."
-5. After 3 seconds, OLED displays "MOVE POT TO MIN"
-6. Move the potentiometer to its minimum position
-7. Hold at minimum for 500ms — progress bar fills
-8. Display switches to throttle mode: "THR: 0%"
-9. Slowly increase throttle — motor responds
+4. OLED shows the splash: "TURBINE BRICK / Initialising ESC..."
+5. After 3 seconds, OLED shows the **DISARMED** screen: "Move pot to MIN"
+6. Move the potentiometer to its minimum position and hold — a progress bar fills over 500ms
+7. Motor arms and the **LIVE** screen appears (VBAT, throttle, time, average)
+8. Slowly increase throttle — motor responds
+9. To stop and view session stats: hold the pot at MIN for 3 seconds — the **STATS** screen shows time, average throttle, peak, and minimum VBAT
+10. To re-arm: move the pot away from MIN, then hold it back at MIN for 500ms — a fresh session begins
 
-If the OLED shows a fault message ("CUTOFF 3.2V/c"), disconnect the battery and check voltage. The controller will not run until power is cycled.
+If the OLED shows the **CUTOFF** screen (battery below 12.8V / 3.2V per cell), disconnect the battery and check voltage. The controller latches this fault and will not run until power is cycled.
 
 ## Voltage Calibration
 
 The voltage divider readings depend on individual ESP32-C3 ADC characteristics. Each device should be calibrated using the two-point procedure documented in `04-voltage-divider/04-voltage-divider.md`.
 
-Default calibration values in the source code are placeholders — update `CAL_R_LOW` and `CAL_R_HIGH` in `turbine_brick_controller.ino` after running the calibration procedure on your specific board.
+The calibration values committed in `07-fan-controller/07-fan-controller.ino` (`CAL_V_LOW`, `CAL_V_HIGH`, `CAL_R_LOW`, `CAL_R_HIGH`) are specific to this build's board and divider. Re-run the procedure on your own hardware and update the four constants — the raw ADC behaviour varies enough between boards that copying values will leave you off by a few tenths of a volt.
 
 ## Final Assembly & Calibration
 
@@ -185,11 +200,30 @@ Once everything is soldered and mounted in the enclosure, run through these test
 
 3. **Safety features test (`05-safety-features`)** — verify the arming sequence, low-battery warning, and fault latching all behave correctly.
 
-4. **Final controller** — flash the integrated firmware with updated calibration constants. Verify all LED ring states (disarmed, armed, low battery, fault).
+4. **Final controller (`07-fan-controller`)** — flash the integrated firmware with updated calibration constants. Verify all LED ring states (disarmed, armed, low battery, fault, stats).
 
 ### Documentation
 
 Take photos of the wired-up internals before closing the enclosure. Useful for future maintenance and troubleshooting without needing to disassemble.
+
+## Printable Parts
+
+The 3D-printable enclosure — duct cage, base, grilles, retention nut, and bottom plate — is published on Thingiverse:
+
+**➡ [Turbine Brick on Thingiverse](https://www.thingiverse.com/thing:7377238)**
+
+Recommended print settings (PETG):
+
+| Setting | Value |
+|---|---|
+| Material | PETG |
+| Nozzle temp | 240°C (245°C first layer) |
+| Bed temp | 75–80°C |
+| Layer height | 0.2mm |
+| Infill | Gyroid, 30–35% |
+| Supports | Tree, touching buildplate (cage only, for the motor arm) |
+
+See the Thingiverse page for per-part orientation, support notes, and the full print guide.
 
 ## Safety Notes
 
