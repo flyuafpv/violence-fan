@@ -10,10 +10,9 @@ The repository contains the full electronics development sequence (seven progres
 
 ## Build Video
 
-<!-- TODO: replace VIDEO_ID with the actual YouTube video ID once published -->
-[![Turbine Brick build video](https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
+[![Turbine Brick build video](https://img.youtube.com/vi/im4K99tkTwA/hqdefault.jpg)](https://youtu.be/im4K99tkTwA)
 
-*▶ Watch the build video on YouTube* — link coming soon.
+*▶ [Watch the build video on YouTube](https://youtu.be/im4K99tkTwA)*
 
 ## What This Project Does
 
