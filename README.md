@@ -2,6 +2,8 @@
 
 A brushless desktop fan controller built around an ESP32-C3, controlling an FPV-style brushless motor through an ESC.
 
+![Turbine Brick](images/hero.jpeg)
+
 The repository contains the full electronics development sequence (seven progressively integrated sketches), the final controller firmware, and reference documentation. The 3D-printable enclosure is on [Thingiverse](https://www.thingiverse.com/thing:7377238).
 
 ## Build Video
@@ -22,6 +24,14 @@ Turns FPV drone hardware into a controllable — and unapologetically loud — d
 - Battery voltage monitoring with two-point calibration
 - Safety arming sequence (motor disabled until throttle at zero)
 - Low-voltage warning and hard cutoff to protect LiPo cells
+
+## Gallery
+
+| Live display | Side profile | Back |
+|---|---|
+| ![OLED live screen](images/oled.jpeg) | ![Side profile](images/profile.jpeg) | ![Back](images/back.jpeg) |
+
+The OLED shows live battery voltage (16.77V / 4.19V per cell), armed time, throttle, and status. The cage tilts back on the base for a natural desk-fan angle; the potentiometer knob and battery sit at the front.
 
 ## Hardware
 
@@ -205,7 +215,7 @@ Once everything is soldered and mounted in the enclosure, run through these test
 
 ### Documentation
 
-Take photos of the wired-up internals before closing the enclosure. Useful for future maintenance and troubleshooting without needing to disassemble.
+Take images of the wired-up internals before closing the enclosure. Useful for future maintenance and troubleshooting without needing to disassemble.
 
 ## Printable Parts
 
