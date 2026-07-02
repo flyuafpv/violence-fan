@@ -2,7 +2,7 @@
 
 A brushless desktop fan controller built around an ESP32-C3, controlling an FPV-style brushless motor through an ESC.
 
-![Turbine Brick](images/hero.jpeg)
+![Turbine Brick](images/hero.jpg)
 
 The repository contains the full electronics development sequence (seven progressively integrated sketches), the final controller firmware, and reference documentation. The 3D-printable enclosure is on [Thingiverse](https://www.thingiverse.com/thing:7377238).
 
@@ -27,9 +27,8 @@ Turns FPV drone hardware into a controllable — and unapologetically loud — d
 
 ## Gallery
 
-| Live display | Side profile | Back |
-|---|---|
-| ![OLED live screen](images/oled.jpeg) | ![Side profile](images/profile.jpeg) | ![Back](images/back.jpeg) |
+| Live display | Side profile | Back 
+| ![OLED live screen](images/oled.jpg) | ![Side profile](images/profile.jpg) | ![Back](images/back.jpg) |
 
 The OLED shows live battery voltage (16.77V / 4.19V per cell), armed time, throttle, and status. The cage tilts back on the base for a natural desk-fan angle; the potentiometer knob and battery sit at the front.
 
@@ -48,7 +47,7 @@ The OLED shows live battery voltage (16.77V / 4.19V per cell), armed time, throt
 | Resistors | 10kΩ + 2kΩ for voltage divider, 330Ω for LED data line |
 | Capacitor | 100nF ceramic for ADC filtering |
 | Inserts | M3×5 brass heat-set inserts (×4) |
-| Fasteners | M3×10 socket cap (×4), M2.6×8 self-tap (×8), M2×6 (×4) |
+| Fasteners | M2.6×8 self-tap (×8) for grilles, M3×6 normal (×4) for bottom |
 
 Full wiring diagram: see `WIRING.md`.
 
