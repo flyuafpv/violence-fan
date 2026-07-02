@@ -2,7 +2,9 @@
 
 A brushless desktop fan controller built around an ESP32-C3, controlling an FPV-style brushless motor through an ESC.
 
-![Turbine Brick](images/hero.jpg)
+<p align="center">
+  <a href="images/hero.jpg"><img src="images/hero.jpg" width="55%" alt="Turbine Brick" /></a>
+</p>
 
 The repository contains the full electronics development sequence (seven progressively integrated sketches), the final controller firmware, and reference documentation. The 3D-printable enclosure is on [Thingiverse](https://www.thingiverse.com/thing:7377238).
 
@@ -27,8 +29,13 @@ Turns FPV drone hardware into a controllable — and unapologetically loud — d
 
 ## Gallery
 
-| Live display | Side profile | Back 
-| ![OLED live screen](images/oled.jpg) | ![Side profile](images/profile.jpg) | ![Back](images/back.jpg) |
+<p align="center">
+  <a href="images/oled.jpg"><img src="images/oled.jpg" width="30%" alt="OLED live screen" /></a>
+  <a href="images/profile.jpg"><img src="images/profile.jpg" width="30%" alt="Side profile" /></a>
+  <a href="images/back.jpg"><img src="images/back.jpg" width="30%" alt="Back / wiring" /></a>
+</p>
+
+<p align="center"><em>Live OLED readout · side profile · back. Click any image to view full size.</em></p>
 
 The OLED shows live battery voltage (16.77V / 4.19V per cell), armed time, throttle, and status. The cage tilts back on the base for a natural desk-fan angle; the potentiometer knob and battery sit at the front.
 
