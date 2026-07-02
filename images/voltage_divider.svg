@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" font-family="Arial, sans-serif">
+  <style>
+    .wire { stroke: #222; stroke-width: 2; fill: none; }
+    .wire-power { stroke: #c62828; stroke-width: 2.5; fill: none; }
+    .wire-gnd { stroke: #424242; stroke-width: 2.5; fill: none; }
+    .wire-data { stroke: #1565c0; stroke-width: 2; fill: none; }
+    .label { font-size: 13px; fill: #222; }
+    .label-bold { font-size: 14px; fill: #222; font-weight: bold; }
+    .pin-label { font-size: 11px; fill: #555; }
+    .net-label { font-size: 12px; fill: #1565c0; font-style: italic; }
+    .title { font-size: 18px; font-weight: bold; fill: #222; }
+    .annotation { font-size: 11px; fill: #777; font-style: italic; }
+    .node { fill: #222; }
+    .calc-box { fill: #f9f9f9; stroke: #ccc; stroke-width: 1; }
+  </style>
+
+  <text x="350" y="30" text-anchor="middle" class="title">Voltage Divider — Battery Monitor</text>
+
+  <!-- BAT+ source -->
+  <text x="200" y="70" text-anchor="middle" class="label-bold">BAT+ from 4S LiPo</text>
+  <text x="200" y="86" text-anchor="middle" class="annotation">up to 16.8V</text>
+  <line x1="200" y1="95" x2="200" y2="120" class="wire-power"/>
+
+  <!-- R1 -->
+  <g transform="translate(200, 120)">
+    <polyline points="0,0 -10,8 10,24 -10,40 10,56 -10,72 0,80" stroke="#222" stroke-width="2" fill="none"/>
+    <text x="25" y="35" class="label-bold">R1</text>
+    <text x="25" y="52" class="label">10kΩ</text>
+  </g>
+
+  <!-- Mid node -->
+  <circle cx="200" cy="210" r="5" class="node"/>
+  <text x="225" y="207" class="net-label">VBAT_DIV</text>
+  <text x="225" y="222" class="annotation">~2.5V max</text>
+
+  <!-- R2 -->
+  <g transform="translate(200, 220)">
+    <polyline points="0,0 -10,8 10,24 -10,40 10,56 -10,72 0,80" stroke="#222" stroke-width="2" fill="none"/>
+    <text x="25" y="35" class="label-bold">R2</text>
+    <text x="25" y="52" class="label">2kΩ</text>
+  </g>
+
+  <!-- Cap branch -->
+  <line x1="200" y1="210" x2="370" y2="210" class="wire"/>
+  <line x1="370" y1="210" x2="370" y2="260" class="wire"/>
+
+  <!-- Cap symbol -->
+  <line x1="350" y1="260" x2="390" y2="260" stroke="#222" stroke-width="3"/>
+  <line x1="350" y1="270" x2="390" y2="270" stroke="#222" stroke-width="3"/>
+  <text x="405" y="265" class="label-bold">C1 100nF</text>
+  <text x="405" y="282" class="annotation">noise filter</text>
+
+  <!-- Cap to GND -->
+  <line x1="370" y1="270" x2="370" y2="330" class="wire-gnd"/>
+
+  <!-- R2 to GND -->
+  <line x1="200" y1="300" x2="200" y2="330" class="wire-gnd"/>
+
+  <!-- GND rail -->
+  <line x1="200" y1="330" x2="370" y2="330" class="wire-gnd"/>
+
+  <!-- GND symbol -->
+  <g transform="translate(285, 330)">
+    <line x1="-30" y1="0" x2="30" y2="0" stroke="#424242" stroke-width="5"/>
+    <line x1="-18" y1="10" x2="18" y2="10" stroke="#424242" stroke-width="3"/>
+    <line x1="-8" y1="20" x2="8" y2="20" stroke="#424242" stroke-width="3"/>
+  </g>
+  <text x="325" y="358" class="label">GND</text>
+
+  <!-- Output to GPIO4 -->
+  <line x1="200" y1="210" x2="120" y2="210" class="wire-data"/>
+  <line x1="120" y1="210" x2="120" y2="400" class="wire-data"/>
+  <line x1="120" y1="400" x2="160" y2="400" class="wire-data"/>
+
+  <!-- ESP32 GPIO4 box -->
+  <rect x="160" y="385" width="130" height="32" rx="3" fill="#f5f5f5" stroke="#222" stroke-width="1.5"/>
+  <text x="225" y="405" text-anchor="middle" class="label">ESP32 GPIO4</text>
+  <text x="225" y="432" text-anchor="middle" class="annotation">ADC input (11dB attenuation)</text>
+
+  <!-- Calculation box (right side, with extra width) -->
+  <rect x="490" y="100" width="190" height="200" class="calc-box" rx="4"/>
+  <text x="585" y="125" text-anchor="middle" class="label-bold">Calculation</text>
+
+  <text x="500" y="155" class="label">Ratio (Vadc/Vbat):</text>
+  <text x="500" y="172" class="label">R2 / (R1+R2)</text>
+  <text x="500" y="189" class="label">= 2k / 12k = 0.1667</text>
+
+  <text x="500" y="215" class="label">Inverse (Vbat/Vadc):</text>
+  <text x="500" y="232" class="label">12k / 2k = 6.0×</text>
+
+  <text x="500" y="260" class="label" fill="#c62828">Worst case (16.8V):</text>
+  <text x="500" y="277" class="label" fill="#c62828">Vadc = 2.80V</text>
+  <text x="500" y="290" class="annotation">under 3.3V ADC max</text>
+</svg>

@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" font-family="Arial, sans-serif">
+  <style>
+    .wire { stroke: #222; stroke-width: 2; fill: none; }
+    .wire-power { stroke: #c62828; stroke-width: 3; fill: none; }
+    .wire-gnd { stroke: #424242; stroke-width: 3; fill: none; }
+    .wire-data { stroke: #1565c0; stroke-width: 2; fill: none; }
+    .wire-bec-p { stroke: #c62828; stroke-width: 1.5; fill: none; }
+    .wire-bec-g { stroke: #424242; stroke-width: 1.5; fill: none; }
+    .label { font-size: 13px; fill: #222; }
+    .label-bold { font-size: 14px; fill: #222; font-weight: bold; }
+    .pin-label { font-size: 11px; fill: #555; }
+    .title { font-size: 18px; font-weight: bold; fill: #222; }
+    .annotation { font-size: 11px; fill: #777; font-style: italic; }
+    .component { fill: #fff; stroke: #222; stroke-width: 2; }
+    .ic-body { fill: #f5f5f5; stroke: #222; stroke-width: 2; }
+  </style>
+
+  <text x="400" y="30" text-anchor="middle" class="title">ESC Wiring Detail</text>
+
+  <!-- Battery -->
+  <g transform="translate(60, 100)">
+    <text x="50" y="-15" text-anchor="middle" class="label-bold">4S LiPo</text>
+    <rect x="0" y="0" width="100" height="60" class="component" rx="4"/>
+    <text x="50" y="35" text-anchor="middle" class="label">XT60/XT30</text>
+    <text x="20" y="55" class="pin-label">+</text>
+    <text x="80" y="55" class="pin-label">−</text>
+
+    <line x1="20" y1="60" x2="20" y2="100" class="wire-power"/>
+    <line x1="20" y1="100" x2="220" y2="100" class="wire-power"/>
+    <line x1="80" y1="60" x2="80" y2="130" class="wire-gnd"/>
+    <line x1="80" y1="130" x2="220" y2="130" class="wire-gnd"/>
+  </g>
+
+  <!-- ESC -->
+  <g transform="translate(280, 110)">
+    <text x="80" y="-15" text-anchor="middle" class="label-bold">ESC (SkyWalker 40A)</text>
+    <rect x="0" y="0" width="160" height="180" class="ic-body" rx="4"/>
+    <text x="80" y="90" text-anchor="middle" class="label">40A with BEC</text>
+    <text x="80" y="108" text-anchor="middle" class="annotation">5V/3A output</text>
+
+    <!-- Left: BAT input -->
+    <line x1="-20" y1="20" x2="0" y2="20" class="wire-power"/>
+    <text x="-25" y="24" text-anchor="end" class="pin-label">BAT+</text>
+    <line x1="-20" y1="40" x2="0" y2="40" class="wire-gnd"/>
+    <text x="-25" y="44" text-anchor="end" class="pin-label">BAT−</text>
+
+    <!-- Right: Motor 3-phase -->
+    <line x1="160" y1="30" x2="190" y2="30" class="wire"/>
+    <line x1="160" y1="50" x2="190" y2="50" class="wire"/>
+    <line x1="160" y1="70" x2="190" y2="70" class="wire"/>
+    <text x="155" y="34" text-anchor="end" class="pin-label">A</text>
+    <text x="155" y="54" text-anchor="end" class="pin-label">B</text>
+    <text x="155" y="74" text-anchor="end" class="pin-label">C</text>
+
+    <!-- Bottom: BEC + Signal output with PROPER spacing -->
+    <line x1="35" y1="180" x2="35" y2="240" class="wire-bec-p"/>
+    <line x1="80" y1="180" x2="80" y2="240" class="wire-bec-g"/>
+    <line x1="125" y1="180" x2="125" y2="240" class="wire-data"/>
+    <text x="35" y="195" text-anchor="middle" class="pin-label">BEC+</text>
+    <text x="80" y="195" text-anchor="middle" class="pin-label">BEC−</text>
+    <text x="125" y="195" text-anchor="middle" class="pin-label">SIG</text>
+  </g>
+
+  <!-- Motor -->
+  <g transform="translate(560, 120)">
+    <text x="50" y="-15" text-anchor="middle" class="label-bold">Brushless Motor</text>
+    <circle cx="50" cy="70" r="50" class="component"/>
+    <text x="50" y="65" text-anchor="middle" class="label">P1604</text>
+    <text x="50" y="82" text-anchor="middle" class="label">3800KV</text>
+    <text x="50" y="145" text-anchor="middle" class="annotation">FPV motor</text>
+
+    <line x1="-75" y1="20" x2="22" y2="48" class="wire"/>
+    <line x1="-75" y1="40" x2="22" y2="68" class="wire"/>
+    <line x1="-75" y1="60" x2="22" y2="88" class="wire"/>
+  </g>
+
+  <!-- ESP32 — moved further down to avoid overlap with ESC BEC labels -->
+  <g transform="translate(280, 410)">
+    <text x="80" y="-15" text-anchor="middle" class="label-bold">ESP32-C3</text>
+    <rect x="0" y="0" width="160" height="60" class="ic-body" rx="4"/>
+    <text x="80" y="35" text-anchor="middle" class="label">Microcontroller</text>
+
+    <!-- 3 pins on top -->
+    <text x="35" y="-30" text-anchor="middle" class="pin-label">5V</text>
+    <text x="80" y="-30" text-anchor="middle" class="pin-label">GND</text>
+    <text x="125" y="-30" text-anchor="middle" class="pin-label">GPIO2</text>
+  </g>
+
+  <!-- Notes panel -->
+  <g transform="translate(580, 320)">
+    <rect x="0" y="0" width="170" height="160" fill="#fff3cd" stroke="#856404" stroke-width="1.5" rx="4"/>
+    <text x="85" y="22" text-anchor="middle" class="label-bold" fill="#856404">Important</text>
+    <text x="12" y="45" class="label" font-size="11" fill="#856404">• Swap any 2 motor</text>
+    <text x="12" y="60" class="label" font-size="11" fill="#856404">  phases to reverse</text>
+    <text x="12" y="80" class="label" font-size="11" fill="#856404">• BEC powers ESP32</text>
+    <text x="12" y="100" class="label" font-size="11" fill="#856404">• Don't connect USB</text>
+    <text x="12" y="115" class="label" font-size="11" fill="#856404">  + battery at the</text>
+    <text x="12" y="130" class="label" font-size="11" fill="#856404">  same time</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(60, 410)">
+    <text x="0" y="0" class="label-bold">Wire Colours</text>
+    <line x1="0" y1="15" x2="40" y2="15" class="wire-power"/>
+    <text x="48" y="19" class="label" font-size="11">BAT+ (thick red)</text>
+    <line x1="0" y1="35" x2="40" y2="35" class="wire-gnd"/>
+    <text x="48" y="39" class="label" font-size="11">BAT− (thick black)</text>
+    <line x1="0" y1="55" x2="40" y2="55" class="wire-bec-p"/>
+    <text x="48" y="59" class="label" font-size="11">BEC+ (thin red)</text>
+    <line x1="0" y1="75" x2="40" y2="75" class="wire-bec-g"/>
+    <text x="48" y="79" class="label" font-size="11">BEC− (thin black)</text>
+    <line x1="0" y1="95" x2="40" y2="95" class="wire-data"/>
+    <text x="48" y="99" class="label" font-size="11">Signal (white)</text>
+  </g>
+</svg>

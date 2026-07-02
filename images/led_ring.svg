@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" font-family="Arial, sans-serif">
+  <style>
+    .wire { stroke: #222; stroke-width: 2; fill: none; }
+    .wire-power { stroke: #c62828; stroke-width: 2.5; fill: none; }
+    .wire-gnd { stroke: #424242; stroke-width: 2.5; fill: none; }
+    .wire-data { stroke: #1565c0; stroke-width: 2; fill: none; }
+    .label { font-size: 13px; fill: #222; }
+    .label-bold { font-size: 14px; fill: #222; font-weight: bold; }
+    .pin-label { font-size: 11px; fill: #555; }
+    .title { font-size: 18px; font-weight: bold; fill: #222; }
+    .annotation { font-size: 11px; fill: #777; font-style: italic; }
+    .ic-body { fill: #f5f5f5; stroke: #222; stroke-width: 2; }
+    .component { fill: #fff; stroke: #222; stroke-width: 2; }
+  </style>
+
+  <text x="350" y="30" text-anchor="middle" class="title">WS2812B LED Ring Wiring</text>
+
+  <!-- ESP32 (left) -->
+  <g transform="translate(60, 130)">
+    <text x="70" y="-15" text-anchor="middle" class="label-bold">ESP32-C3</text>
+    <rect x="0" y="0" width="140" height="140" class="ic-body" rx="4"/>
+    <text x="70" y="80" text-anchor="middle" class="label">Microcontroller</text>
+
+    <!-- 3 pins on right with labels INSIDE the box for clarity -->
+    <line x1="140" y1="30" x2="160" y2="30" class="wire-power"/>
+    <line x1="140" y1="65" x2="160" y2="65" class="wire-data"/>
+    <line x1="140" y1="105" x2="160" y2="105" class="wire-gnd"/>
+    <text x="135" y="34" text-anchor="end" class="pin-label">5V</text>
+    <text x="135" y="69" text-anchor="end" class="pin-label">GPIO10</text>
+    <text x="135" y="109" text-anchor="end" class="pin-label">GND</text>
+  </g>
+
+  <!-- Wires across with 330Ω inline -->
+  <!-- 5V wire (top) -->
+  <line x1="220" y1="160" x2="490" y2="160" class="wire-power"/>
+
+  <!-- Data wire (middle, with 330Ω inline) -->
+  <line x1="220" y1="195" x2="300" y2="195" class="wire-data"/>
+  <g transform="translate(300, 185)">
+    <line x1="0" y1="10" x2="10" y2="10" class="wire-data"/>
+    <polyline points="10,10 18,3 30,17 42,3 54,17 66,3 78,10" stroke="#222" stroke-width="2" fill="none"/>
+    <line x1="78" y1="10" x2="88" y2="10" class="wire-data"/>
+    <text x="44" y="-5" text-anchor="middle" class="label-bold">330Ω</text>
+    <text x="44" y="32" text-anchor="middle" class="annotation">protects DIN</text>
+  </g>
+  <line x1="388" y1="195" x2="490" y2="195" class="wire-data"/>
+
+  <!-- GND wire (bottom) -->
+  <line x1="220" y1="235" x2="490" y2="235" class="wire-gnd"/>
+
+  <!-- LED strip (right) -->
+  <g transform="translate(490, 130)">
+    <text x="90" y="-15" text-anchor="middle" class="label-bold">WS2812B Strip</text>
+    <rect x="0" y="0" width="180" height="140" class="component" rx="4"/>
+    <text x="90" y="55" text-anchor="middle" class="label">18 LEDs</text>
+    <text x="90" y="75" text-anchor="middle" class="annotation">60 LEDs/m, 30cm</text>
+
+    <!-- Visualize LEDs -->
+    <g transform="translate(15, 110)">
+      <circle cx="0" cy="0" r="5" fill="#ff5252"/>
+      <circle cx="18" cy="0" r="5" fill="#ff5252"/>
+      <circle cx="36" cy="0" r="5" fill="#ff5252"/>
+      <circle cx="54" cy="0" r="5" fill="#ff5252"/>
+      <text x="80" y="3" text-anchor="middle" class="label">...</text>
+      <circle cx="120" cy="0" r="5" fill="#ff5252"/>
+      <circle cx="138" cy="0" r="5" fill="#ff5252"/>
+    </g>
+
+    <!-- 3 input pads on left -->
+    <line x1="0" y1="30" x2="-20" y2="30" class="wire-power"/>
+    <line x1="0" y1="65" x2="-20" y2="65" class="wire-data"/>
+    <line x1="0" y1="105" x2="-20" y2="105" class="wire-gnd"/>
+    <text x="5" y="34" class="pin-label">5V</text>
+    <text x="5" y="69" class="pin-label">DIN</text>
+    <text x="5" y="109" class="pin-label">GND</text>
+  </g>
+
+  <!-- Notes -->
+  <g transform="translate(60, 310)">
+    <rect x="0" y="0" width="580" height="110" fill="#fff3cd" stroke="#856404" stroke-width="1.5" rx="4"/>
+    <text x="15" y="22" class="label-bold" fill="#856404">Notes</text>
+    <text x="15" y="45" class="label" font-size="11" fill="#856404">• Power LEDs from ESC BEC 5V — NOT from ESP32 3V3 (insufficient current)</text>
+    <text x="15" y="62" class="label" font-size="11" fill="#856404">• 18 LEDs at full white draw up to 1A — BEC provides 3A, comfortable margin</text>
+    <text x="15" y="79" class="label" font-size="11" fill="#856404">• 330Ω series resistor on data line protects first LED and reduces signal reflections</text>
+    <text x="15" y="96" class="label" font-size="11" fill="#856404">• Connect to DIN end of strip (look for arrow direction on strip)</text>
+  </g>
+</svg>
